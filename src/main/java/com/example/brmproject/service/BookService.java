@@ -27,5 +27,7 @@ public interface BookService {
 
     boolean changeBookCase(Integer bookId,Integer caseId);
 
+    Page<BookDTO> getBooksByTitle(String title, int page, int size);
+
 
 }

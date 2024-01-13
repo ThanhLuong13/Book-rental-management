@@ -97,6 +97,13 @@ public class BookServiceImp  implements BookService {
     }
 
     @Override
+    public Page<BookDTO> getBooksByTitle(String title, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<BookEntity> listBook = bookRepo.findByTitle(title, pageable);
+        return listBook.map(book -> mapToDTO(book));
+    }
+
+    @Override
     public boolean changeBookCase(Integer bookId, Integer caseId) {
        BookEntity book= bookRepo.findById(bookId).orElseThrow(()->new ResourceNotFoundException("Book","id",String.valueOf(bookId)));
         BookshelfCaseEntity myCase=caseEntityRepository.findById(caseId).orElseThrow(()->new ResourceNotFoundException("Case","id",String.valueOf(caseId)));

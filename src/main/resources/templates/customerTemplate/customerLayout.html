@@ -151,15 +151,17 @@
 
         <!-- Right elements -->
         <div class="col-lg-5 col-md-12 col-12 d-flex align-items-center">
-          <div class="input-group float-center">
-            <div class="form-outline">
-              <input type="search" id="form1" class="form-control" />
-              <label class="form-label" for="form1">Search</label>
+          <form th:action="@{/customers/books/title}" method="get" th:object="${title}">
+            <div class="input-group float-center">
+              <div class="form-outline">
+                <input name="title" type="search" id="form1" class="form-control" />
+                <label class="form-label" for="form1">Search</label>
+              </div>
+              <button type="submit" class="btn btn-primary shadow-0">
+                Search
+              </button>
             </div>
-            <button type="button" class="btn btn-primary shadow-0">
-              Search
-            </button>
-          </div>
+          </form>
         </div>
         <!-- Right elements -->
       </div>

@@ -64,6 +64,7 @@ public class BookCustomersController {
     public String getBooksByCategoryId(@PathVariable Integer categoryId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "4") int size,
+            @ModelAttribute("title") String title,
             Model model, @ModelAttribute("alertMessage") String alertMessage,
             @ModelAttribute("alertError") String alertError) {
         // alert
@@ -122,6 +123,28 @@ public class BookCustomersController {
         model.addAttribute("listUserReviews", listUserReviews);
         model.addAttribute("book", bookDTO);
         return "customerTemplate/books/bookDetail";
+    }
+
+    @GetMapping("/books/title")
+    public String getBooksByTitle(@RequestParam("title") String title,
+                                  @RequestParam(defaultValue = "1") int page,
+                                  @RequestParam(defaultValue = "4") int size,
+                                  Model model){
+        if (title == null) {
+            return "redirect:/customers/books";
+        }
+        Page<BookDTO> listBooks = bookService.getBooksByTitle(title, page - 1, size);
+        List<CategoryDTO> categoryList = categoryService.findAll();
+        int totalPages = listBooks.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+        model.addAttribute("books", listBooks);
+        model.addAttribute("categories", categoryList);
+        return "customerTemplate/books/showAllBook";
     }
 
 }
